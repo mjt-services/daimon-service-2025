@@ -1,0 +1,40 @@
+{
+  "name": "@mjt-services/daimon-service-2025",
+  "version": "2025.1.14-1121",
+  "sideEffects": false,
+  "description": "daimon service",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "docs": "typedoc src/index.ts",
+    "build-docs": "pnpm run build && pnpm run docs",
+    "changelog": "./scripts/changes.sh > CHANGELOG.md",
+    "changelog-version": "pnpm run changelog && ./scripts/version.sh",
+    "publish": "pnpm run build-docs && pnpm run changelog-version",
+    "start": "tsx src/index.ts",
+    "build": "pnpm run docker-build",
+    "check": "tsc --noEmit -w",
+    "docker-build": "scripts/build.sh",
+    "docker-run": "scripts/run.sh",
+    "docker-push": "scripts/push.sh",
+    "dev": "pnpm run build && pnpm run docker-run"
+  },
+  "keywords": [],
+  "author": "Matt Taylor (https://mjt.dev)",
+  "license": "MIT",
+  "dependencies": {
+    "@mjt-engine/assert": "github:mjt-engine/assert",
+    "@mjt-engine/message": "github:mjt-engine/message",
+    "@mjt-engine/object": "github:mjt-engine/object",
+    "@mjt-engine/parse": "github:mjt-engine/parse",
+    "@mjt-services/daimon-common-2025": "github:mjt-services/daimon-common-2025",
+    "@mjt-services/data-common-2025": "github:mjt-services/data-common-2025"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "tsx": "^4.19.2",
+    "typedoc": "^0.27.6",
+    "typescript": "^5.7.3"
+  }
+}
