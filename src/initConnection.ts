@@ -8,6 +8,8 @@ import { daimonCreateListener } from "./listener/daimonCreateListener";
 import type { DataConnectionMap } from "@mjt-services/data-common-2025";
 import { daimonGetListener } from "./listener/daimonGetListener";
 import { daimonListListener } from "./listener/daimonListListener";
+import { daimonUpdateListener } from "./listener/daimonUpdateListener";
+import { daimonRemoveListener } from "./listener/daimonRemoveListener";
 
 export const initConnection = async () => {
   const env = getEnv();
@@ -22,6 +24,8 @@ export const initConnection = async () => {
       "daimon.create": daimonCreateListener,
       "daimon.get": daimonGetListener,
       "daimon.list": daimonListListener,
+      "daimon.update": daimonUpdateListener,
+      "daimon.remove": daimonRemoveListener,
     },
     options: { log: console.log },
     server: [url],

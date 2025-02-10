@@ -1,26 +1,20 @@
 import type { ConnectionListener } from "@mjt-engine/message";
-import type {
-  DaimonCharaCard,
-  DaimonConnectionMap,
-} from "@mjt-services/daimon-common-2025";
+import { isUndefined } from "@mjt-engine/object";
+import type { DaimonConnectionMap } from "@mjt-services/daimon-common-2025";
 import { Datas } from "../data/Datas";
 import { DAIMON_CHARA_CARD_DB_STORE } from "./DAIMON_CHARA_CARD_DB_STORE";
-import { isUndefined } from "@mjt-engine/object";
 
-export const daimonGetListener: ConnectionListener<
+export const daimonRemoveListener: ConnectionListener<
   DaimonConnectionMap,
-  "daimon.get"
+  "daimon.remove"
 > = async (props) => {
   const { id } = props.detail.body;
-  const chara = await Datas.get<DaimonCharaCard>({
+  const chara = await Datas.remove({
     dbStore: DAIMON_CHARA_CARD_DB_STORE,
-    key: id,
+    query: id,
   });
   if (isUndefined(chara)) {
     return undefined;
   }
-  return {
-    id,
-    chara,
-  };
+  return { success: true };
 };
