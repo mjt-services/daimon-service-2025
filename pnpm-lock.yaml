@@ -25,7 +25,7 @@ importers:
         version: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/41a016d6dab1fa6f270344f67d10ca90592d01b4
       '@mjt-services/data-common-2025':
         specifier: github:mjt-services/data-common-2025
-        version: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/9f250c1a9d6123fd813b28e115cc2652f2ce532a
+        version: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/47c22247519be762a550f12464b55545c0606c0f
     devDependencies:
       '@types/node':
         specifier: ^22.13.4
@@ -215,9 +215,9 @@ packages:
     resolution: {tarball: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/41a016d6dab1fa6f270344f67d10ca90592d01b4}
     version: 2025.2.15-1300
 
-  '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/9f250c1a9d6123fd813b28e115cc2652f2ce532a':
-    resolution: {tarball: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/9f250c1a9d6123fd813b28e115cc2652f2ce532a}
-    version: 2025.2.14-1337
+  '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/47c22247519be762a550f12464b55545c0606c0f':
+    resolution: {tarball: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/47c22247519be762a550f12464b55545c0606c0f}
+    version: 2025.2.15-1326
 
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     resolution: {integrity: sha512-QZHtlVgbAdy2zAqNA9Gu1UpIuI8Xvsd1v8ic6B2pZmeFnFcMWiPLfWXh7TVw4eGEZ/C9TH281KwhVoeQUKbyjw==}
@@ -557,7 +557,7 @@ snapshots:
 
   '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/41a016d6dab1fa6f270344f67d10ca90592d01b4': {}
 
-  '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/9f250c1a9d6123fd813b28e115cc2652f2ce532a': {}
+  '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/47c22247519be762a550f12464b55545c0606c0f': {}
 
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     optional: true
