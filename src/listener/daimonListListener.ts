@@ -6,20 +6,22 @@ import type {
   Daimon,
 } from "@mjt-services/daimon-common-2025";
 import { Datas } from "../data/Datas";
-import { DAIMON_CHARA_CARD_DB_STORE } from "./DAIMON_CHARA_CARD_DB_STORE";
+import { DAIMON_CHARA_CARD_OBJECT_STORE } from "../data/DAIMON_CHARA_CARD_OBJECT_STORE";
 
 export const daimonListListener: ConnectionListener<
   DaimonConnectionMap,
   "daimon.list"
 > = async (props) => {
-  //TODO respect daimon.list query
   const { query } = props.detail.body;
-  const ids = await Datas.list({ dbStore: DAIMON_CHARA_CARD_DB_STORE });
+  const ids = (await Datas.search({
+    from: DAIMON_CHARA_CARD_OBJECT_STORE,
+    query,
+  })) as string[];
   const daimons = (
     await Promise.all(
       ids.map(async (id) => {
         const chara = await Datas.get<DaimonCharaCard>({
-          dbStore: DAIMON_CHARA_CARD_DB_STORE,
+          objectStore: DAIMON_CHARA_CARD_OBJECT_STORE,
           key: id,
         });
         if (isUndefined(chara)) {

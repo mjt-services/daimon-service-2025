@@ -17,11 +17,11 @@ export const put = async (
   return con.request({ subject: "data.put", request: { body } });
 };
 
-export const list = async (
-  body: DataConnectionMap["data.list"]["request"]["body"]
+export const search = async (
+  body: DataConnectionMap["data.search"]["request"]["body"]
 ) => {
   const con = await getConnection();
-  return con.request({ subject: "data.list", request: { body } });
+  return con.request({ subject: "data.search", request: { body } });
 };
 
 export const remove = async (
@@ -31,4 +31,4 @@ export const remove = async (
   return con.request({ subject: "data.remove", request: { body } });
 };
 
-export const Datas = { put, get, list, remove };
+export const Datas = { put, get, search, remove };

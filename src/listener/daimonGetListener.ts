@@ -4,7 +4,7 @@ import type {
   DaimonConnectionMap,
 } from "@mjt-services/daimon-common-2025";
 import { Datas } from "../data/Datas";
-import { DAIMON_CHARA_CARD_DB_STORE } from "./DAIMON_CHARA_CARD_DB_STORE";
+import { DAIMON_CHARA_CARD_OBJECT_STORE } from "../data/DAIMON_CHARA_CARD_OBJECT_STORE";
 import { isUndefined } from "@mjt-engine/object";
 
 export const daimonGetListener: ConnectionListener<
@@ -13,7 +13,7 @@ export const daimonGetListener: ConnectionListener<
 > = async (props) => {
   const { id } = props.detail.body;
   const chara = await Datas.get<DaimonCharaCard>({
-    dbStore: DAIMON_CHARA_CARD_DB_STORE,
+    objectStore: DAIMON_CHARA_CARD_OBJECT_STORE,
     key: id,
   });
   if (isUndefined(chara)) {

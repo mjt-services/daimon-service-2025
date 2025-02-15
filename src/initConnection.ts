@@ -2,7 +2,10 @@ import { Messages } from "@mjt-engine/message";
 import type { Env } from "./Env";
 
 import { assertValue } from "@mjt-engine/assert";
-import type { DaimonConnectionMap } from "@mjt-services/daimon-common-2025";
+import type {
+  RoomConnectionMap,
+  DaimonConnectionMap,
+} from "@mjt-services/daimon-common-2025";
 import { getEnv } from "./getEnv";
 import { daimonCreateListener } from "./listener/daimonCreateListener";
 import type { DataConnectionMap } from "@mjt-services/data-common-2025";
@@ -10,6 +13,10 @@ import { daimonGetListener } from "./listener/daimonGetListener";
 import { daimonListListener } from "./listener/daimonListListener";
 import { daimonUpdateListener } from "./listener/daimonUpdateListener";
 import { daimonRemoveListener } from "./listener/daimonRemoveListener";
+import {
+  conversationAddListener,
+  conversationLinkListener,
+} from "./listener/conversationAddListener";
 
 export const initConnection = async () => {
   const env = getEnv();
@@ -17,7 +24,7 @@ export const initConnection = async () => {
   console.log("NATS_URL", url);
 
   const con = await Messages.createConnection<
-    DaimonConnectionMap & DataConnectionMap,
+    DaimonConnectionMap & DataConnectionMap & RoomConnectionMap,
     Env
   >({
     subscribers: {
@@ -26,6 +33,8 @@ export const initConnection = async () => {
       "daimon.list": daimonListListener,
       "daimon.update": daimonUpdateListener,
       "daimon.remove": daimonRemoveListener,
+      // "conversation.add": conversationAddListener,
+      // "conversation.link": conversationLinkListener,
     },
     options: { log: console.log },
     server: [url],
