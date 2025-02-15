@@ -7,7 +7,7 @@ import type {
 } from "@mjt-services/daimon-common-2025";
 import { renderTemplate } from "./renderTemplate";
 import { Datas } from "../data/Datas";
-import { DAIMON_CHARA_CARD_OBJECT_STORE } from "../data/DAIMON_CHARA_CARD_OBJECT_STORE";
+import { DAIMON_OBJECT_STORE } from "../data/DAIMON_CHARA_CARD_OBJECT_STORE";
 
 export type CharaCardVars = Partial<{
   char: string;
@@ -42,7 +42,7 @@ export const DEFAULT_CHARA_CARD: DaimonCharaCard = {
 
 export const idToDaimon = async (id: string): Promise<Daimon> => {
   const daimon = await Datas.get<Daimon>({
-    objectStore: DAIMON_CHARA_CARD_OBJECT_STORE,
+    objectStore: DAIMON_OBJECT_STORE,
     key: id,
   });
 

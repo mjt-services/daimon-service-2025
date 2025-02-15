@@ -6,7 +6,7 @@ import type {
   Daimon,
 } from "@mjt-services/daimon-common-2025";
 import { Datas } from "../data/Datas";
-import { DAIMON_CHARA_CARD_OBJECT_STORE } from "../data/DAIMON_CHARA_CARD_OBJECT_STORE";
+import { DAIMON_OBJECT_STORE } from "../data/DAIMON_CHARA_CARD_OBJECT_STORE";
 
 export const daimonListListener: ConnectionListener<
   DaimonConnectionMap,
@@ -14,20 +14,20 @@ export const daimonListListener: ConnectionListener<
 > = async (props) => {
   const { query } = props.detail.body;
   const ids = (await Datas.search({
-    from: DAIMON_CHARA_CARD_OBJECT_STORE,
+    from: DAIMON_OBJECT_STORE,
     query,
   })) as string[];
   const daimons = (
     await Promise.all(
       ids.map(async (id) => {
-        const chara = await Datas.get<DaimonCharaCard>({
-          objectStore: DAIMON_CHARA_CARD_OBJECT_STORE,
+        const daimon = await Datas.get<Daimon>({
+          objectStore: DAIMON_OBJECT_STORE,
           key: id,
         });
-        if (isUndefined(chara)) {
+        if (isUndefined(daimon)) {
           return undefined;
         }
-        return { id, chara } as Daimon;
+        return daimon;
       })
     )
   ).filter(isDefined);
