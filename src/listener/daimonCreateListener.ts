@@ -20,6 +20,7 @@ export const daimonCreateListener: ConnectionListener<
   const resp = await Datas.put({
     value: daimon,
   });
+  console.log("daimon.create: resp", resp);
   Asserts.assertEqual(resp, id);
   return { id };
 };
