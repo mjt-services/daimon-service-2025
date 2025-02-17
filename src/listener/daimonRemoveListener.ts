@@ -1,8 +1,10 @@
 import type { ConnectionListener } from "@mjt-engine/message";
 import { isUndefined } from "@mjt-engine/object";
-import type { DaimonConnectionMap } from "@mjt-services/daimon-common-2025";
+import {
+  DAIMON_OBJECT_STORE,
+  type DaimonConnectionMap,
+} from "@mjt-services/daimon-common-2025";
 import { Datas } from "../data/Datas";
-import { DAIMON_OBJECT_STORE } from "../data/DAIMON_CHARA_CARD_OBJECT_STORE";
 
 export const daimonRemoveListener: ConnectionListener<
   DaimonConnectionMap,

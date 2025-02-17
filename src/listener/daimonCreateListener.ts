@@ -1,12 +1,12 @@
 import { Asserts } from "@mjt-engine/assert";
 import type { ConnectionListener } from "@mjt-engine/message";
-import type {
-  Daimon,
-  DaimonConnectionMap,
+import {
+  DAIMON_OBJECT_STORE,
+  type Daimon,
+  type DaimonConnectionMap,
 } from "@mjt-services/daimon-common-2025";
 import { Ids } from "@mjt-services/data-common-2025";
 import { Datas } from "../data/Datas";
-import { DAIMON_OBJECT_STORE } from "../data/DAIMON_CHARA_CARD_OBJECT_STORE";
 
 export const daimonCreateListener: ConnectionListener<
   DaimonConnectionMap,
