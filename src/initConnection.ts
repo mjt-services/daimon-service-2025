@@ -3,20 +3,16 @@ import type { Env } from "./Env";
 
 import { assertValue } from "@mjt-engine/assert";
 import type {
-  RoomConnectionMap,
   DaimonConnectionMap,
+  RoomConnectionMap,
 } from "@mjt-services/daimon-common-2025";
+import type { DataConnectionMap } from "@mjt-services/data-common-2025";
 import { getEnv } from "./getEnv";
 import { daimonCreateListener } from "./listener/daimonCreateListener";
-import type { DataConnectionMap } from "@mjt-services/data-common-2025";
 import { daimonGetListener } from "./listener/daimonGetListener";
 import { daimonListListener } from "./listener/daimonListListener";
-import { daimonUpdateListener } from "./listener/daimonUpdateListener";
 import { daimonRemoveListener } from "./listener/daimonRemoveListener";
-import {
-  conversationAddListener,
-  conversationLinkListener,
-} from "./listener/conversationAddListener";
+import { daimonUpdateListener } from "./listener/daimonUpdateListener";
 
 export const initConnection = async () => {
   const env = getEnv();
