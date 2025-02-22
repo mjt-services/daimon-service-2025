@@ -52,7 +52,6 @@ export const idToDaimon = async (id: string): Promise<Daimon> => {
   };
 };
 
-
 // export const notifyDaimon = (msgNode: ConversationMessageNode) => {
 //   const vars: CharaCardVars = {
 //     char: "assistant",
