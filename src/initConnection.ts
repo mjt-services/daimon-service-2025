@@ -5,6 +5,7 @@ import { assertValue } from "@mjt-engine/assert";
 import type { DaimonConnectionMap } from "@mjt-services/daimon-common-2025";
 import type { DataConnectionMap } from "@mjt-services/data-common-2025";
 import { getEnv } from "./getEnv";
+import type { TextgenConnectionMap } from "@mjt-services/textgen-common-2025";
 
 export const initConnection = async () => {
   const env = getEnv();
@@ -12,7 +13,7 @@ export const initConnection = async () => {
   console.log("NATS_URL", url);
 
   const con = await Messages.createConnection<
-    DaimonConnectionMap & DataConnectionMap,
+    DaimonConnectionMap & DataConnectionMap & TextgenConnectionMap,
     Env
   >({
     subscribers: {

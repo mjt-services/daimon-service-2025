@@ -13,7 +13,7 @@ importers:
         version: https://codeload.github.com/mjt-engine/assert/tar.gz/58b808f45ca8a23cd7d613e75ba9e76c5fb70e55
       '@mjt-engine/message':
         specifier: github:mjt-engine/message
-        version: https://codeload.github.com/mjt-engine/message/tar.gz/1a2842b6499b75043c64f571f6283b18bea9fed2(nats.ws@1.30.1)
+        version: https://codeload.github.com/mjt-engine/message/tar.gz/1611eb40575b4ffc1e7daf387336d4c1027cd034(nats.ws@1.30.1)
       '@mjt-engine/object':
         specifier: github:mjt-engine/object
         version: https://codeload.github.com/mjt-engine/object/tar.gz/75263a186b55c31764efb3a1bc075285f971946b
@@ -22,10 +22,13 @@ importers:
         version: https://codeload.github.com/mjt-engine/parse/tar.gz/0cfe4e6756c4a38311ad98f3a5a811834f2b1b80
       '@mjt-services/daimon-common-2025':
         specifier: github:mjt-services/daimon-common-2025
-        version: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/d82a893d78f2799aff42e14fd76691052de23996(nats.ws@1.30.1)
+        version: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/7efd9fe1ce2652a4089fae032fd4bd167e57e76f(nats.ws@1.30.1)
       '@mjt-services/data-common-2025':
         specifier: github:mjt-services/data-common-2025
-        version: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/e2a5879da9b17b1d406a7ebfc4d65bea74a96609(nats.ws@1.30.1)
+        version: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/251593198a0e20265c1bdb516c53c8e1a360398c(nats.ws@1.30.1)
+      '@mjt-services/textgen-common-2025':
+        specifier: github:mjt-services/textgen-common-2025
+        version: https://codeload.github.com/mjt-services/textgen-common-2025/tar.gz/63a281c70df93471bfb61647be000800b1661eca
     devDependencies:
       '@types/node':
         specifier: ^22.13.5
@@ -34,8 +37,8 @@ importers:
         specifier: ^4.19.3
         version: 4.19.3
       typedoc:
-        specifier: ^0.27.8
-        version: 0.27.8(typescript@5.7.3)
+        specifier: ^0.27.9
+        version: 0.27.9(typescript@5.7.3)
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -203,9 +206,9 @@ packages:
     resolution: {tarball: https://codeload.github.com/mjt-engine/byte/tar.gz/472e6b25258a1d694808e214d3a41e07f7d8504f}
     version: 2025.1.19-1221
 
-  '@mjt-engine/message@https://codeload.github.com/mjt-engine/message/tar.gz/1a2842b6499b75043c64f571f6283b18bea9fed2':
-    resolution: {tarball: https://codeload.github.com/mjt-engine/message/tar.gz/1a2842b6499b75043c64f571f6283b18bea9fed2}
-    version: 2025.2.21-1234
+  '@mjt-engine/message@https://codeload.github.com/mjt-engine/message/tar.gz/1611eb40575b4ffc1e7daf387336d4c1027cd034':
+    resolution: {tarball: https://codeload.github.com/mjt-engine/message/tar.gz/1611eb40575b4ffc1e7daf387336d4c1027cd034}
+    version: 2025.2.23-1330
     peerDependencies:
       nats.ws: ^1.27.0
 
@@ -217,13 +220,17 @@ packages:
     resolution: {tarball: https://codeload.github.com/mjt-engine/parse/tar.gz/0cfe4e6756c4a38311ad98f3a5a811834f2b1b80}
     version: 2025.1.19-1222
 
-  '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/d82a893d78f2799aff42e14fd76691052de23996':
-    resolution: {tarball: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/d82a893d78f2799aff42e14fd76691052de23996}
-    version: 2025.2.22-1150
+  '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/7efd9fe1ce2652a4089fae032fd4bd167e57e76f':
+    resolution: {tarball: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/7efd9fe1ce2652a4089fae032fd4bd167e57e76f}
+    version: 2025.2.25-1229
 
-  '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/e2a5879da9b17b1d406a7ebfc4d65bea74a96609':
-    resolution: {tarball: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/e2a5879da9b17b1d406a7ebfc4d65bea74a96609}
-    version: 2025.2.21-1217
+  '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/251593198a0e20265c1bdb516c53c8e1a360398c':
+    resolution: {tarball: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/251593198a0e20265c1bdb516c53c8e1a360398c}
+    version: 2025.2.23-1318
+
+  '@mjt-services/textgen-common-2025@https://codeload.github.com/mjt-services/textgen-common-2025/tar.gz/63a281c70df93471bfb61647be000800b1661eca':
+    resolution: {tarball: https://codeload.github.com/mjt-services/textgen-common-2025/tar.gz/63a281c70df93471bfb61647be000800b1661eca}
+    version: 2025.1.14-1120
 
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     resolution: {integrity: sha512-QZHtlVgbAdy2zAqNA9Gu1UpIuI8Xvsd1v8ic6B2pZmeFnFcMWiPLfWXh7TVw4eGEZ/C9TH281KwhVoeQUKbyjw==}
@@ -338,8 +345,8 @@ packages:
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
 
-  get-intrinsic@1.2.7:
-    resolution: {integrity: sha512-VW6Pxhsrk0KAOqs3WEd0klDiF/+V7gQOpAvY1jVU/LHmaD/kQO4523aiJuikX/QAKYiW6x8Jh+RJej1almdtCA==}
+  get-intrinsic@1.3.0:
+    resolution: {integrity: sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==}
     engines: {node: '>= 0.4'}
 
   get-proto@1.0.1:
@@ -436,12 +443,12 @@ packages:
   tweetnacl@1.0.3:
     resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
 
-  typedoc@0.27.8:
-    resolution: {integrity: sha512-q0/2TUunNEDmWkn23ULKGXieK8cgGuAmBUXC/HcZ/rgzMI9Yr4Nq3in1K1vT1NZ9zx6M78yTk3kmIPbwJgK5KA==}
+  typedoc@0.27.9:
+    resolution: {integrity: sha512-/z585740YHURLl9DN2jCWe6OW7zKYm6VoQ93H0sxZ1cwHQEQrUn5BJrEnkWhfzUdyO+BLGjnKUZ9iz9hKloFDw==}
     engines: {node: '>= 18'}
     hasBin: true
     peerDependencies:
-      typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x
+      typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x
 
   typescript@5.7.3:
     resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
@@ -549,7 +556,7 @@ snapshots:
       '@mjt-engine/assert': https://codeload.github.com/mjt-engine/assert/tar.gz/58b808f45ca8a23cd7d613e75ba9e76c5fb70e55
       msgpackr: 1.11.2
 
-  '@mjt-engine/message@https://codeload.github.com/mjt-engine/message/tar.gz/1a2842b6499b75043c64f571f6283b18bea9fed2(nats.ws@1.30.1)':
+  '@mjt-engine/message@https://codeload.github.com/mjt-engine/message/tar.gz/1611eb40575b4ffc1e7daf387336d4c1027cd034(nats.ws@1.30.1)':
     dependencies:
       '@mjt-engine/byte': https://codeload.github.com/mjt-engine/byte/tar.gz/472e6b25258a1d694808e214d3a41e07f7d8504f
       '@mjt-engine/object': https://codeload.github.com/mjt-engine/object/tar.gz/75263a186b55c31764efb3a1bc075285f971946b
@@ -564,17 +571,22 @@ snapshots:
     dependencies:
       '@mjt-engine/object': https://codeload.github.com/mjt-engine/object/tar.gz/75263a186b55c31764efb3a1bc075285f971946b
 
-  '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/d82a893d78f2799aff42e14fd76691052de23996(nats.ws@1.30.1)':
+  '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/7efd9fe1ce2652a4089fae032fd4bd167e57e76f(nats.ws@1.30.1)':
     dependencies:
-      '@mjt-services/data-common-2025': https://codeload.github.com/mjt-services/data-common-2025/tar.gz/e2a5879da9b17b1d406a7ebfc4d65bea74a96609(nats.ws@1.30.1)
+      '@mjt-services/data-common-2025': https://codeload.github.com/mjt-services/data-common-2025/tar.gz/251593198a0e20265c1bdb516c53c8e1a360398c(nats.ws@1.30.1)
     transitivePeerDependencies:
       - nats.ws
 
-  '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/e2a5879da9b17b1d406a7ebfc4d65bea74a96609(nats.ws@1.30.1)':
+  '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/251593198a0e20265c1bdb516c53c8e1a360398c(nats.ws@1.30.1)':
     dependencies:
-      '@mjt-engine/message': https://codeload.github.com/mjt-engine/message/tar.gz/1a2842b6499b75043c64f571f6283b18bea9fed2(nats.ws@1.30.1)
+      '@mjt-engine/message': https://codeload.github.com/mjt-engine/message/tar.gz/1611eb40575b4ffc1e7daf387336d4c1027cd034(nats.ws@1.30.1)
+      '@mjt-engine/object': https://codeload.github.com/mjt-engine/object/tar.gz/75263a186b55c31764efb3a1bc075285f971946b
     transitivePeerDependencies:
       - nats.ws
+
+  '@mjt-services/textgen-common-2025@https://codeload.github.com/mjt-services/textgen-common-2025/tar.gz/63a281c70df93471bfb61647be000800b1661eca':
+    dependencies:
+      '@mjt-engine/object': https://codeload.github.com/mjt-engine/object/tar.gz/75263a186b55c31764efb3a1bc075285f971946b
 
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     optional: true
@@ -635,13 +647,13 @@ snapshots:
     dependencies:
       call-bind-apply-helpers: 1.0.2
       es-define-property: 1.0.1
-      get-intrinsic: 1.2.7
+      get-intrinsic: 1.3.0
       set-function-length: 1.2.2
 
   call-bound@1.0.3:
     dependencies:
       call-bind-apply-helpers: 1.0.2
-      get-intrinsic: 1.2.7
+      get-intrinsic: 1.3.0
 
   define-data-property@1.1.4:
     dependencies:
@@ -701,7 +713,7 @@ snapshots:
 
   function-bind@1.1.2: {}
 
-  get-intrinsic@1.2.7:
+  get-intrinsic@1.3.0:
     dependencies:
       call-bind-apply-helpers: 1.0.2
       es-define-property: 1.0.1
@@ -811,7 +823,7 @@ snapshots:
       define-data-property: 1.1.4
       es-errors: 1.3.0
       function-bind: 1.1.2
-      get-intrinsic: 1.2.7
+      get-intrinsic: 1.3.0
       gopd: 1.2.0
       has-property-descriptors: 1.0.2
 
@@ -825,7 +837,7 @@ snapshots:
   tweetnacl@1.0.3:
     optional: true
 
-  typedoc@0.27.8(typescript@5.7.3):
+  typedoc@0.27.9(typescript@5.7.3):
     dependencies:
       '@gerrit0/mini-shiki': 1.27.2
       lunr: 2.3.9

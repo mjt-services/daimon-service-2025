@@ -29,12 +29,13 @@
     "@mjt-engine/object": "github:mjt-engine/object",
     "@mjt-engine/parse": "github:mjt-engine/parse",
     "@mjt-services/daimon-common-2025": "github:mjt-services/daimon-common-2025",
-    "@mjt-services/data-common-2025": "github:mjt-services/data-common-2025"
+    "@mjt-services/data-common-2025": "github:mjt-services/data-common-2025",
+    "@mjt-services/textgen-common-2025": "github:mjt-services/textgen-common-2025"
   },
   "devDependencies": {
     "@types/node": "^22.13.5",
     "tsx": "^4.19.3",
-    "typedoc": "^0.27.8",
+    "typedoc": "^0.27.9",
     "typescript": "^5.7.3"
   }
 }

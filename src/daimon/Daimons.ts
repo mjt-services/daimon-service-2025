@@ -1,56 +1,5 @@
-import { iff, isDefined } from "@mjt-engine/object";
-import {
-  DAIMON_OBJECT_STORE,
-  type Daimon,
-  type DaimonCharaCard,
-} from "@mjt-services/daimon-common-2025";
-import { renderTemplate } from "./renderTemplate";
-import { Datas } from "../data/Datas";
-
-export type CharaCardVars = Partial<{
-  char: string;
-  user: string;
-}>;
-
-export const daimonToSystemPrompt = (
-  daimon: Daimon,
-  vars: Record<string, string> = {}
-) => {
-  const { chara } = daimon;
-  const { data } = chara;
-  const { description, personality, name, system_prompt } = data;
-
-  return [
-    iff(name, (x) => "The assistant's name is " + x),
-    renderTemplate(description, vars),
-    renderTemplate(personality, vars),
-    renderTemplate(system_prompt, vars),
-  ]
-    .filter(isDefined)
-    .join("\n");
-};
-
-export const DEFAULT_CHARA_CARD: DaimonCharaCard = {
-  data: {
-    name: "assistant",
-  },
-  spec: "chara_card_v2",
-  spec_version: "2",
-};
-
-export const idToDaimon = async (id: string): Promise<Daimon> => {
-  const daimon = await Datas.get<Daimon>({
-    objectStore: DAIMON_OBJECT_STORE,
-    key: id,
-  });
-
-  const chara = isDefined(daimon) ? daimon.chara : DEFAULT_CHARA_CARD;
-
-  return {
-    id,
-    chara: chara,
-  };
-};
+import { daimonToSystemPrompt } from "./daimonToSystemPrompt";
+import { idToDaimon } from "./idToDaimon";
 
 // export const notifyDaimon = (msgNode: ConversationMessageNode) => {
 //   const vars: CharaCardVars = {
@@ -68,4 +17,4 @@ export const idToDaimon = async (id: string): Promise<Daimon> => {
 //   // finalize stream-response after it ends
 // };
 
-export const Daimons = {};
+export const Daimons = { idToDaimon, daimonToSystemPrompt };
