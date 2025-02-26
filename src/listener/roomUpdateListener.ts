@@ -44,12 +44,19 @@ export const handleRoomUpdate = async (roomId: string) => {
     return;
   }
   console.log(`Last content created by user`, last);
-  const daimonIds = await findDaimonsByRoom(roomId);
-  for (const daimonId of daimonIds) {
-    console.log(`Responding as daimon ${daimonId}`);
+  const daimons = (await findDaimonsByRoom(roomId)).toSorted((a, b) => {
+    if (a.chara.data.name && b.chara.data.name) {
+      return a.chara.data.name.localeCompare(b.chara.data.name);
+    }
+    return 0;
+  });
+  for (const daimon of daimons) {
+    const roomChildren = await findRoomChildren(roomId);
+    const roomContents = await roomsToRoomContents(roomChildren);
+    console.log(`Responding as daimon ${daimon.chara.data.name}`);
     await respondAsDaimonToRoomContents({
       roomId,
-      daimonId,
+      daimon,
       roomContents,
     });
   }
@@ -57,18 +64,13 @@ export const handleRoomUpdate = async (roomId: string) => {
 
 export const respondAsDaimonToRoomContents = async ({
   roomId,
-  daimonId,
+  daimon,
   roomContents,
 }: {
   roomId: string;
-  daimonId: string;
+  daimon: Daimon;
   roomContents: RoomContent[];
 }) => {
-  const daimon = await Daimons.idToDaimon(daimonId);
-  if (isUndefined(daimon)) {
-    console.log(`Daimon ${daimonId} not found`);
-    return;
-  }
   const daimonSystemPrompt = Daimons.daimonToSystemPrompt(daimon);
   console.log(`Daimon system prompt`, daimonSystemPrompt);
   const roomContentsPrompt = await roomContentsToPrompt(roomContents);
@@ -83,43 +85,46 @@ export const respondAsDaimonToRoomContents = async ({
   const con = await getConnection();
   const assistantName = daimon.chara.data.name ?? "assistant";
   let finished = false;
-  con.requestMany({
-    subject: "textgen.generate",
-    onResponse: async (response) => {
-      console.log(`Response`, response);
-      if (finished) {
-        return;
-      }
-      if (response.done) {
-        finished = true;
-        console.log(`Adding content to room ${roomId}`);
-        const id = await addRoomTextContent({
-          creatorId: "daimon",
-          text: response.text ?? "",
-          parentId: roomId,
-        });
-        console.log(`Added content ${id}`);
-      }
-    },
-    request: {
-      body: {
-        // model: "google/gemini-2.0-flash-001",
-        // model: "mistralai/mistral-nemo",
-        // model: "google/gemini-flash-1.5",
-        model: "gryphe/mythomax-l2-13b",
-        stream: true,
-        messages: [
-          {
-            role: "system",
-            content: fullSystemPrompt,
-          },
-          {
-            role: "user",
-            content: `As ${assistantName} give the next response in the conversaton. Begin with '${assistantName}: '`,
-          },
-        ],
+  return new Promise((resolve, reject) => {
+    con.requestMany({
+      subject: "textgen.generate",
+      onResponse: async (response) => {
+        console.log(`Response`, response);
+        if (finished) {
+          return;
+        }
+        if (response.done) {
+          finished = true;
+          console.log(`Adding content to room ${roomId}`);
+          const id = await addRoomTextContent({
+            creatorId: daimon.id,
+            text: response.text ?? "",
+            parentId: roomId,
+          });
+          console.log(`Added content ${id}`);
+          resolve(id);
+        }
       },
-    },
+      request: {
+        body: {
+          // model: "google/gemini-2.0-flash-001",
+          // model: "mistralai/mistral-nemo",
+          // model: "google/gemini-flash-1.5",
+          model: "gryphe/mythomax-l2-13b",
+          stream: true,
+          messages: [
+            {
+              role: "system",
+              content: fullSystemPrompt,
+            },
+            {
+              role: "user",
+              content: `Give ${assistantName} next response. Begin with '${assistantName}: '`,
+            },
+          ],
+        },
+      },
+    });
   });
 };
 
