@@ -33,9 +33,9 @@
     "@mjt-services/textgen-common-2025": "github:mjt-services/textgen-common-2025"
   },
   "devDependencies": {
-    "@types/node": "^22.13.5",
+    "@types/node": "^22.13.9",
     "tsx": "^4.19.3",
     "typedoc": "^0.27.9",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   }
 }
