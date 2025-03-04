@@ -9,6 +9,7 @@ import { getConnection } from "../getConnection";
 import type { RoomContent } from "./RoomContent";
 import { roomContentsToPrompt } from "./roomContentsToPrompt";
 import { Messages } from "@mjt-engine/message";
+import { getEnv } from "../getEnv";
 
 export const respondAsDaimonToRoomContents = async ({
   roomId,
@@ -63,6 +64,7 @@ export const respondAsDaimonToRoomContents = async ({
         },
       });
       console.log("respondAsDaimonToRoomContents: requestMany");
+      const model = daimon.chara.data.extensions?.llm ?? getEnv().DEFAULT_LLM;
       await con.requestMany({
         subject: "textgen.generate",
         signal: stopGenerationAbortController.signal,
@@ -100,7 +102,8 @@ export const respondAsDaimonToRoomContents = async ({
             // model: "google/gemini-2.0-flash-001",
             // model: "mistralai/mistral-nemo",
             // model: "google/gemini-flash-1.5",
-            model: "gryphe/mythomax-l2-13b",
+            // model: "gryphe/mythomax-l2-13b",
+            model,
             stream: true,
             messages: [
               {
