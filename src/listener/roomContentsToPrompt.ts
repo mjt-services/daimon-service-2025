@@ -1,8 +1,6 @@
-import { isUndefined, isDefined } from "@mjt-engine/object";
+import { isDefined, isUndefined } from "@mjt-engine/object";
 import { getAllDaimons } from "./getAllDaimons";
-import { undefined } from "./respondAsDaimonToRoomContents";
 import type { RoomContent } from "./RoomContent";
-
 
 export const roomContentsToPrompt = async (roomContents: RoomContent[]) => {
   const allDaimons = await getAllDaimons();
