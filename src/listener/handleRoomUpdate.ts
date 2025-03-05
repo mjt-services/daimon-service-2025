@@ -24,6 +24,9 @@ export const handleRoomUpdate = async (roomId: string) => {
   const userDaimon = daimons.find((d) => d.chara.data.extensions?.isUser);
 
   for (const daimon of daimons) {
+    if (daimon.chara.data.extensions?.isUser) {
+      continue;
+    }
     const roomChildren = await findRoomChildren(roomId);
     const roomContents = await roomsToRoomContents(roomChildren);
     await respondAsDaimonToRoomContents({
