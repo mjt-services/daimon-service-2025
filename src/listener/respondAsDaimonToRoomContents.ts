@@ -15,12 +15,20 @@ export const respondAsDaimonToRoomContents = async ({
   roomId,
   daimon,
   roomContents,
+  userDaimon,
 }: {
   roomId: string;
   daimon: Daimon;
+  userDaimon?: Daimon;
   roomContents: RoomContent[];
 }) => {
-  const daimonSystemPrompt = Daimons.daimonToSystemPrompt(daimon);
+  const assistantName = daimon.chara.data.name ?? "assistant";
+  const userName = userDaimon?.chara.data.name ?? "user";
+  const vars = {
+    user: userName,
+    char: assistantName,
+  };
+  const daimonSystemPrompt = Daimons.daimonToSystemPrompt(daimon, vars);
   const roomContentsPrompt = await roomContentsToPrompt(roomContents);
   const fullSystemPrompt = [
     "# Assistant Description",
@@ -29,7 +37,6 @@ export const respondAsDaimonToRoomContents = async ({
     roomContentsPrompt,
   ].join("\n");
   const con = await getConnection();
-  const assistantName = daimon.chara.data.name ?? "assistant";
   let finished = false;
 
   const { contentId, createdAt } = await addTextContent({

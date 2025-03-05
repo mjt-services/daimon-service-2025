@@ -21,12 +21,15 @@ export const handleRoomUpdate = async (roomId: string) => {
     }
     return 0;
   });
+  const userDaimon = daimons.find((d) => d.chara.data.extensions?.isUser);
+
   for (const daimon of daimons) {
     const roomChildren = await findRoomChildren(roomId);
     const roomContents = await roomsToRoomContents(roomChildren);
     await respondAsDaimonToRoomContents({
       roomId,
       daimon,
+      userDaimon,
       roomContents,
     });
   }
