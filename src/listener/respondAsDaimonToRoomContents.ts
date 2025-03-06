@@ -2,8 +2,8 @@ import {
   type Daimon,
   type DaimonEventMap,
 } from "@mjt-services/daimon-common-2025";
-import { AddRoom } from "../common/AddRoom";
-import { addTextContent } from "../common/addTextContent";
+import { addRoom } from "../common/addRoom";
+import { addContent } from "../common/addContent";
 import { Daimons } from "../daimon/Daimons";
 import { getConnection } from "../getConnection";
 import type { RoomContent } from "./RoomContent";
@@ -39,11 +39,13 @@ export const respondAsDaimonToRoomContents = async ({
   const con = await getConnection();
   let finished = false;
 
-  const { contentId, createdAt } = await addTextContent({
+  console.log(fullSystemPrompt);
+
+  const { contentId, createdAt } = await addContent({
     creatorId: daimon.id,
-    text: "",
+    value: "",
   });
-  await AddRoom({
+  await addRoom({
     contentId,
     parentId: roomId,
   });
@@ -57,20 +59,16 @@ export const respondAsDaimonToRoomContents = async ({
 
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(
-        "respondAsDaimonToRoomContents: connectEventListenerToSubjectRoot"
-      );
       Messages.connectEventListenerToSubjectRoot<"stop", typeof foo>({
         connection: con.connection,
         subjectRoot: "stop",
         signal: stopEventListenerAbortController.signal,
         listener: async (message) => {
-          console.log("stopping", message);
+          // console.log("stopping", message);
           stopGenerationAbortController.abort();
           reject(new Error("stopped"));
         },
       });
-      console.log("respondAsDaimonToRoomContents: requestMany");
       const model = daimon.chara.data.extensions?.llm ?? getEnv().DEFAULT_LLM;
       await con.requestMany({
         subject: "textgen.generate",
@@ -83,12 +81,12 @@ export const respondAsDaimonToRoomContents = async ({
           const text =
             response.text?.replace(new RegExp(`^ *${assistantName}: *`), "") ??
             "";
-          console.log(text);
+          // console.log(text);
           if (response.done) {
             finished = true;
-            await addTextContent({
+            await addContent({
               creatorId: daimon.id,
-              text,
+              value: text,
               contentId,
               createdAt,
               finalized: true,
@@ -96,9 +94,9 @@ export const respondAsDaimonToRoomContents = async ({
             resolve(contentId);
             return;
           }
-          await addTextContent({
+          await addContent({
             creatorId: daimon.id,
-            text,
+            value: text,
             contentId,
             createdAt,
             finalized: false,
@@ -106,10 +104,6 @@ export const respondAsDaimonToRoomContents = async ({
         },
         request: {
           body: {
-            // model: "google/gemini-2.0-flash-001",
-            // model: "mistralai/mistral-nemo",
-            // model: "google/gemini-flash-1.5",
-            // model: "gryphe/mythomax-l2-13b",
             model,
             stream: true,
             messages: [
@@ -129,7 +123,6 @@ export const respondAsDaimonToRoomContents = async ({
       console.log("error in respondAsDaimonToRoomContents", error);
       reject(error);
     } finally {
-      console.log("wrapping up respondAsDaimonToRoomContents");
       stopEventListenerAbortController.abort();
     }
   });

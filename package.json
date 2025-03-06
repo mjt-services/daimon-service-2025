@@ -18,7 +18,8 @@
     "docker-build": "scripts/build.sh",
     "docker-run": "scripts/run.sh",
     "docker-push": "scripts/push.sh",
-    "dev": "pnpm run build && pnpm run docker-run"
+    "log": "docker logs -f daimon",
+    "dev": "pnpm run docker-build && pnpm run docker-run && pnpm run log"
   },
   "keywords": [],
   "author": "Matt Taylor (https://mjt.dev)",

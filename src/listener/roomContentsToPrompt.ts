@@ -1,30 +1,41 @@
 import { isDefined, isUndefined } from "@mjt-engine/object";
 import { getAllDaimons } from "./getAllDaimons";
 import type { RoomContent } from "./RoomContent";
+import { MESSAGE_CONTENT_TYPE } from "../common/MESSAGE_CONTENT_TYPE";
+import { SUMMARY_CONTENT_TYPE } from "./SUMMARY_CONTENT_TYPE";
+import { getSummaryChunkSize } from "./getSummaryChunkSize";
+import { sortByCreatedAt } from "./sortByCreatedAt";
 
 export const roomContentsToPrompt = async (roomContents: RoomContent[]) => {
   const allDaimons = await getAllDaimons();
-  return roomContents
-    .toSorted((a, b) => {
-      if (isUndefined(a.content) || isUndefined(b.content)) {
-        return 0;
-      }
-      return a.content.createdAt - b.content.createdAt;
+
+  const { chunkSize } = getSummaryChunkSize();
+
+  const summaryPrompt = roomContents
+    .filter(
+      ({ content }) =>
+        isDefined(content) && content.contentType === SUMMARY_CONTENT_TYPE
+    )
+    .toSorted(sortByCreatedAt)
+    .map(({ content }) => {
+      const { value } = content!;
+      return value;
     })
-    .map(({ room, content }) => {
-      if (isUndefined(content)) {
-        console.log(`Content undefined in room ${room.id}`);
-        return undefined;
-      }
-      const { contentType, value, creatorId } = content;
+    .join("\n");
+
+  const messagesPrompt = roomContents
+    .filter(
+      ({ content }) =>
+        isDefined(content) && content.contentType === MESSAGE_CONTENT_TYPE
+    )
+    .toSorted(sortByCreatedAt)
+    .slice(-chunkSize)
+    .map(({ content }) => {
+      const { value, creatorId } = content!;
       const daimon = allDaimons.find((daimon) => daimon.id === creatorId);
-      if (typeof value !== "string") {
-        console.log(`Content not text/plain in room ${room.id}`);
-        return undefined;
-      }
       const speakerName = daimon?.chara.data.name ?? "user";
       return `${speakerName}: ${value}`;
     })
-    .filter(isDefined)
     .join("\n");
+  return [summaryPrompt, messagesPrompt].join("\n\n");
 };

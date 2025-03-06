@@ -12,7 +12,6 @@ export const findDaimonsByRoom = async (roomId: string): Promise<Daimon[]> => {
   })) as string[];
 
   const query = `values(@)[?contains(['${ids.join("','")}'], id)]`;
-  console.log("query", query);
 
   const daimons = (await Datas.search(await getConnection())({
     from: DAIMON_OBJECT_STORE,

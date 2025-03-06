@@ -3,7 +3,7 @@ import { Datas, Ids } from "@mjt-services/data-common-2025";
 import { getConnection } from "../getConnection";
 
 
-export const AddRoom = async ({
+export const addRoom = async ({
   parentId, contentId,
 }: {
   contentId: string;
