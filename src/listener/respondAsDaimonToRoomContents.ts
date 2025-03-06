@@ -81,7 +81,7 @@ export const respondAsDaimonToRoomContents = async ({
           const text =
             response.text?.replace(new RegExp(`^ *${assistantName}: *`), "") ??
             "";
-          // console.log(text);
+          console.log(text);
           if (response.done) {
             finished = true;
             await addContent({
