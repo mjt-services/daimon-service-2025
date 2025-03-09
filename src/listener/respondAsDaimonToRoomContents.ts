@@ -1,6 +1,8 @@
 import {
+  type Content,
   type Daimon,
   type DaimonEventMap,
+  type Room,
 } from "@mjt-services/daimon-common-2025";
 import { addRoom } from "../common/addRoom";
 import { addContent } from "../common/addContent";
@@ -10,6 +12,20 @@ import type { RoomContent } from "./RoomContent";
 import { roomContentsToPrompt } from "./roomContentsToPrompt";
 import { Messages } from "@mjt-engine/message";
 import { getEnv } from "../getEnv";
+import { Datas } from "@mjt-services/data-common-2025";
+import { isDefined, isUndefined } from "@mjt-engine/object";
+
+export const findRoomContext = async (roomId: string) => {
+  const room = (await Datas.get(await getConnection())({
+    key: roomId,
+  })) as Room;
+  if (isUndefined(room.contextId)) {
+    return;
+  }
+  return (await Datas.get(await getConnection())({
+    key: room.contextId,
+  })) as Content;
+};
 
 export const respondAsDaimonToRoomContents = async ({
   roomId,
@@ -30,12 +46,17 @@ export const respondAsDaimonToRoomContents = async ({
   };
   const daimonSystemPrompt = Daimons.daimonToSystemPrompt(daimon, vars);
   const roomContentsPrompt = await roomContentsToPrompt(roomContents);
+  const roomContextPrompt = (await findRoomContext(roomId))?.value;
   const fullSystemPrompt = [
+    roomContextPrompt,
     "# Assistant Description",
     daimonSystemPrompt,
     "# Conversation History",
     roomContentsPrompt,
-  ].join("\n");
+  ]
+    .filter(isDefined)
+    .join("\n");
+
   const con = await getConnection();
   let finished = false;
 
@@ -73,6 +94,9 @@ export const respondAsDaimonToRoomContents = async ({
       await con.requestMany({
         subject: "textgen.generate",
         signal: stopGenerationAbortController.signal,
+        options: {
+          timeoutMs: 1000 * 60 * 5,
+        },
 
         onResponse: async (response) => {
           if (finished) {
@@ -106,6 +130,7 @@ export const respondAsDaimonToRoomContents = async ({
           body: {
             model,
             stream: true,
+            max_tokens: 1024,
             messages: [
               {
                 role: "system",
