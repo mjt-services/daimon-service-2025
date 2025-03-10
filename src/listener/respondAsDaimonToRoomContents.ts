@@ -130,7 +130,7 @@ export const respondAsDaimonToRoomContents = async ({
           body: {
             model,
             stream: true,
-            max_tokens: 1024,
+            max_tokens: 2048,
             messages: [
               {
                 role: "system",
