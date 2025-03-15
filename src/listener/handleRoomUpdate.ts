@@ -1,10 +1,8 @@
 import { isUndefined } from "@mjt-engine/object";
 import { findDaimonsByRoom } from "./findDaimonsByRoom";
-import { findRoomChildren } from "./findRoomChildren";
+import { findRoomContents } from "./findRoomContents";
 import { lastRoomMessageContent } from "./lastRoomContent";
 import { respondAsDaimonToRoomContents } from "./respondAsDaimonToRoomContents";
-import { roomsToRoomContents } from "./roomsToRoomContents";
-import { findRoomContents } from "./findRoomContents";
 
 export const handleRoomUpdate = async (roomId: string) => {
   const roomContents = await findRoomContents(roomId);
@@ -27,13 +25,13 @@ export const handleRoomUpdate = async (roomId: string) => {
     if (daimon.chara.data.extensions?.isUser) {
       continue;
     }
-    const roomChildren = await findRoomChildren(roomId);
-    const roomContents = await roomsToRoomContents(roomChildren);
+    // const roomChildren = await findRoomChildren(roomId);
+    // const roomContents = await roomsToRoomContents(roomChildren);
     await respondAsDaimonToRoomContents({
       roomId,
       daimon,
       userDaimon,
-      roomContents,
+      // roomContents,
     });
   }
 };

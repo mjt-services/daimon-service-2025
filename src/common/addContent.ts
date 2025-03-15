@@ -16,7 +16,7 @@ export const addContent = async ({
 }: {
   contentType?: string;
   contentId?: string;
-  value: unknown;
+  value?: unknown;
   creatorId?: string;
   finalized?: boolean;
   createdAt?: number;

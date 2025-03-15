@@ -4,8 +4,9 @@ import type { Env } from "./Env";
 import { assertValue } from "@mjt-engine/assert";
 import type { DaimonConnectionMap } from "@mjt-services/daimon-common-2025";
 import type { DataConnectionMap } from "@mjt-services/data-common-2025";
-import { getEnv } from "./getEnv";
 import type { TextgenConnectionMap } from "@mjt-services/textgen-common-2025";
+import { getEnv } from "./getEnv";
+import { daimonAskListener } from "./listener/daimonAskListener";
 
 export const initConnection = async () => {
   const env = getEnv();
@@ -17,13 +18,7 @@ export const initConnection = async () => {
     Env
   >({
     subscribers: {
-      // "daimon.create": daimonCreateListener,
-      // "daimon.get": daimonGetListener,
-      // "daimon.list": daimonListListener,
-      // "daimon.update": daimonUpdateListener,
-      // "daimon.remove": daimonRemoveListener,
-      // "conversation.add": conversationAddListener,
-      // "conversation.link": conversationLinkListener,
+      "daimon.ask": daimonAskListener,
     },
     options: { log: console.log },
     server: [url],
