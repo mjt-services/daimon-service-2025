@@ -7,6 +7,7 @@ export const daimonAskListener: ConnectionListener<
   "daimon.ask"
 > = async (props) => {
   const { send, detail, signal } = props;
+  console.log("daimon.ask", detail.body);
   await askDaimon({
     ...detail.body,
     signal,

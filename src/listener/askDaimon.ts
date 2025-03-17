@@ -2,6 +2,7 @@ import { isDefined } from "@mjt-engine/object";
 import type {
   DaimonConnectionMap,
   Content,
+  Daimon,
 } from "@mjt-services/daimon-common-2025";
 import { Datas } from "@mjt-services/data-common-2025";
 import { Daimons } from "../daimon/Daimons";
@@ -44,12 +45,11 @@ export const askDaimon = async (
       ? daimons.find((d) => d.chara.data.extensions?.isUser)
       : undefined
     : undefined;
-  const assistantDaimon = isDefined(assistantId)
-    ? (await Datas.get(await getConnection())({ key: assistantId }))
-      ? daimons.find((d) => !d.chara.data.extensions?.isUser)
-      : undefined
-    : undefined;
 
+  const assistantDaimon = isDefined(assistantId)
+    ? ((await Datas.get(await getConnection())({ key: assistantId })) as Daimon)
+    : undefined;
+  console.log("assistant DAIMON", assistantDaimon);
   const roomChildren = isDefined(roomId) ? await findRoomChildren(roomId) : [];
   const roomContents = await roomsToRoomContents(roomChildren);
 
@@ -79,6 +79,7 @@ export const askDaimon = async (
     .join("\n");
 
   const con = await getConnection();
+  console.log(fullSystemPrompt);
 
   const model =
     assistantDaimon?.chara.data.extensions?.llm ?? getEnv().DEFAULT_LLM;
@@ -97,7 +98,7 @@ export const askDaimon = async (
           return;
         }
         const text = responseTextMapper(response.text ?? "");
-        console.log(text);
+        // console.log(text);
         if (response.done) {
           finished = true;
           await onUpdate({
