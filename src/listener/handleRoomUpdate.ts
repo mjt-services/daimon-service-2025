@@ -25,13 +25,10 @@ export const handleRoomUpdate = async (roomId: string) => {
     if (daimon.chara.data.extensions?.isUser) {
       continue;
     }
-    // const roomChildren = await findRoomChildren(roomId);
-    // const roomContents = await roomsToRoomContents(roomChildren);
     await respondAsDaimonToRoomContents({
       roomId,
       daimon,
       userDaimon,
-      // roomContents,
     });
   }
 };

@@ -9,7 +9,10 @@ import { Daimons } from "../daimon/Daimons";
 import { getConnection } from "../getConnection";
 import { getEnv } from "../getEnv";
 import { findDaimonsByRoom } from "./findDaimonsByRoom";
-import { findRoomChildren } from "./findRoomChildren";
+import {
+  findRoomChildren,
+} from "./findRoomChildren";
+import { findPriorTimelineSiblings } from "./findPriorTimelineSiblings";
 import { findRoomContext } from "./findRoomContext";
 import { roomContentsToPrompt } from "./roomContentsToPrompt";
 import { roomsToRoomContents } from "./roomsToRoomContents";
@@ -53,6 +56,10 @@ export const askDaimon = async (
   const roomChildren = isDefined(roomId) ? await findRoomChildren(roomId) : [];
   const roomContents = await roomsToRoomContents(roomChildren);
 
+  const priorTimelineSiblinRoomContents = await findPriorTimelineSiblings(
+    roomId
+  );
+
   const assistantName = assistantDaimon?.chara.data.name ?? "assistant";
   const userName = userDaimon?.chara.data.name ?? "user";
   const vars = {
@@ -63,7 +70,10 @@ export const askDaimon = async (
   const daimonSystemPrompt = isDefined(assistantDaimon)
     ? Daimons.daimonToSystemPrompt(assistantDaimon, vars)
     : undefined;
-  const roomContentsPrompt = await roomContentsToPrompt(roomContents);
+  const roomContentsPrompt = await roomContentsToPrompt([
+    ...priorTimelineSiblinRoomContents,
+    ...roomContents,
+  ]);
   const roomContextPrompt = isDefined(roomId)
     ? (await findRoomContext(roomId))?.value
     : undefined;
