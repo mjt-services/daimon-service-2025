@@ -22,7 +22,7 @@ importers:
         version: https://codeload.github.com/mjt-engine/parse/tar.gz/0cfe4e6756c4a38311ad98f3a5a811834f2b1b80
       '@mjt-services/daimon-common-2025':
         specifier: github:mjt-services/daimon-common-2025
-        version: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/eef96c65a99eef9420ca43d84b07c3b1d857c922(nats.ws@1.30.1)
+        version: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/b6bdd70616dd807ac823b53b337cfc5014fdf2d7(nats.ws@1.30.1)
       '@mjt-services/data-common-2025':
         specifier: github:mjt-services/data-common-2025
         version: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/f09e3286c04111976d2df2f015a828ecbf302aeb(nats.ws@1.30.1)
@@ -202,9 +202,9 @@ packages:
     resolution: {tarball: https://codeload.github.com/mjt-engine/assert/tar.gz/58b808f45ca8a23cd7d613e75ba9e76c5fb70e55}
     version: 2025.1.19-1221
 
-  '@mjt-engine/byte@https://codeload.github.com/mjt-engine/byte/tar.gz/472e6b25258a1d694808e214d3a41e07f7d8504f':
-    resolution: {tarball: https://codeload.github.com/mjt-engine/byte/tar.gz/472e6b25258a1d694808e214d3a41e07f7d8504f}
-    version: 2025.1.19-1221
+  '@mjt-engine/byte@https://codeload.github.com/mjt-engine/byte/tar.gz/16c78d57ba1965475b4c44ec849b47d66325bd17':
+    resolution: {tarball: https://codeload.github.com/mjt-engine/byte/tar.gz/16c78d57ba1965475b4c44ec849b47d66325bd17}
+    version: 2025.3.16-1235
 
   '@mjt-engine/message@https://codeload.github.com/mjt-engine/message/tar.gz/c1466d7244409b4caa3e6130249cc84327864f49':
     resolution: {tarball: https://codeload.github.com/mjt-engine/message/tar.gz/c1466d7244409b4caa3e6130249cc84327864f49}
@@ -220,9 +220,9 @@ packages:
     resolution: {tarball: https://codeload.github.com/mjt-engine/parse/tar.gz/0cfe4e6756c4a38311ad98f3a5a811834f2b1b80}
     version: 2025.1.19-1222
 
-  '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/eef96c65a99eef9420ca43d84b07c3b1d857c922':
-    resolution: {tarball: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/eef96c65a99eef9420ca43d84b07c3b1d857c922}
-    version: 2025.3.15-1550
+  '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/b6bdd70616dd807ac823b53b337cfc5014fdf2d7':
+    resolution: {tarball: https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/b6bdd70616dd807ac823b53b337cfc5014fdf2d7}
+    version: 2025.3.19-940
 
   '@mjt-services/data-common-2025@https://codeload.github.com/mjt-services/data-common-2025/tar.gz/f09e3286c04111976d2df2f015a828ecbf302aeb':
     resolution: {tarball: https://codeload.github.com/mjt-services/data-common-2025/tar.gz/f09e3286c04111976d2df2f015a828ecbf302aeb}
@@ -551,14 +551,14 @@ snapshots:
 
   '@mjt-engine/assert@https://codeload.github.com/mjt-engine/assert/tar.gz/58b808f45ca8a23cd7d613e75ba9e76c5fb70e55': {}
 
-  '@mjt-engine/byte@https://codeload.github.com/mjt-engine/byte/tar.gz/472e6b25258a1d694808e214d3a41e07f7d8504f':
+  '@mjt-engine/byte@https://codeload.github.com/mjt-engine/byte/tar.gz/16c78d57ba1965475b4c44ec849b47d66325bd17':
     dependencies:
       '@mjt-engine/assert': https://codeload.github.com/mjt-engine/assert/tar.gz/58b808f45ca8a23cd7d613e75ba9e76c5fb70e55
       msgpackr: 1.11.2
 
   '@mjt-engine/message@https://codeload.github.com/mjt-engine/message/tar.gz/c1466d7244409b4caa3e6130249cc84327864f49(nats.ws@1.30.1)':
     dependencies:
-      '@mjt-engine/byte': https://codeload.github.com/mjt-engine/byte/tar.gz/472e6b25258a1d694808e214d3a41e07f7d8504f
+      '@mjt-engine/byte': https://codeload.github.com/mjt-engine/byte/tar.gz/16c78d57ba1965475b4c44ec849b47d66325bd17
       '@mjt-engine/object': https://codeload.github.com/mjt-engine/object/tar.gz/75263a186b55c31764efb3a1bc075285f971946b
       nats.ws: 1.30.1
 
@@ -571,7 +571,7 @@ snapshots:
     dependencies:
       '@mjt-engine/object': https://codeload.github.com/mjt-engine/object/tar.gz/75263a186b55c31764efb3a1bc075285f971946b
 
-  '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/eef96c65a99eef9420ca43d84b07c3b1d857c922(nats.ws@1.30.1)':
+  '@mjt-services/daimon-common-2025@https://codeload.github.com/mjt-services/daimon-common-2025/tar.gz/b6bdd70616dd807ac823b53b337cfc5014fdf2d7(nats.ws@1.30.1)':
     dependencies:
       '@mjt-engine/message': https://codeload.github.com/mjt-engine/message/tar.gz/c1466d7244409b4caa3e6130249cc84327864f49(nats.ws@1.30.1)
       '@mjt-services/data-common-2025': https://codeload.github.com/mjt-services/data-common-2025/tar.gz/f09e3286c04111976d2df2f015a828ecbf302aeb(nats.ws@1.30.1)

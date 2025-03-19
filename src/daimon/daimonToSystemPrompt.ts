@@ -1,9 +1,9 @@
 import { iff, isDefined } from "@mjt-engine/object";
-import type { Daimon } from "@mjt-services/daimon-common-2025";
+import type { BaseDaimon } from "@mjt-services/daimon-common-2025";
 import { renderTemplate } from "./renderTemplate";
 
 export const daimonToSystemPrompt = (
-  daimon: Daimon,
+  daimon: BaseDaimon,
   vars: Record<string, string> = {}
 ) => {
   const { chara } = daimon;

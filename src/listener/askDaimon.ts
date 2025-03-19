@@ -1,18 +1,17 @@
 import { isDefined } from "@mjt-engine/object";
 import type {
-  DaimonConnectionMap,
+  BaseDaimon,
   Content,
   Daimon,
+  DaimonConnectionMap,
 } from "@mjt-services/daimon-common-2025";
-import { Datas } from "@mjt-services/data-common-2025";
+import { Datas, isEntity } from "@mjt-services/data-common-2025";
 import { Daimons } from "../daimon/Daimons";
 import { getConnection } from "../getConnection";
 import { getEnv } from "../getEnv";
 import { findDaimonsByRoom } from "./findDaimonsByRoom";
-import {
-  findRoomChildren,
-} from "./findRoomChildren";
 import { findPriorTimelineSiblings } from "./findPriorTimelineSiblings";
+import { findRoomChildren } from "./findRoomChildren";
 import { findRoomContext } from "./findRoomContext";
 import { roomContentsToPrompt } from "./roomContentsToPrompt";
 import { roomsToRoomContents } from "./roomsToRoomContents";
@@ -20,7 +19,8 @@ import { roomsToRoomContents } from "./roomsToRoomContents";
 export const askDaimon = async (
   props: DaimonConnectionMap["daimon.ask"]["request"]["body"] & {
     signal?: AbortSignal;
-    onUpdate: (content: Partial<Content>) => void | Promise<void>;
+    assistant?: BaseDaimon;
+    onUpdate?: (content: Partial<Content>) => void | Promise<void>;
     responseTextMapper?: (text: string) => string;
   }
 ) => {
@@ -33,6 +33,7 @@ export const askDaimon = async (
     onUpdate,
     responseTextMapper = (text) => text,
     maxTokens = 2048,
+    assistant,
   } = props;
 
   const daimons = isDefined(roomId)
@@ -51,7 +52,7 @@ export const askDaimon = async (
 
   const assistantDaimon = isDefined(assistantId)
     ? ((await Datas.get(await getConnection())({ key: assistantId })) as Daimon)
-    : undefined;
+    : assistant;
   console.log("assistant DAIMON", assistantDaimon);
   const roomChildren = isDefined(roomId) ? await findRoomChildren(roomId) : [];
   const roomContents = await roomsToRoomContents(roomChildren);
@@ -60,7 +61,7 @@ export const askDaimon = async (
     roomId
   );
 
-  const assistantName = assistantDaimon?.chara.data.name ?? "assistant";
+  const assistantName = assistantDaimon?.chara?.data.name ?? "assistant";
   const userName = userDaimon?.chara.data.name ?? "user";
   const vars = {
     user: userName,
@@ -92,60 +93,58 @@ export const askDaimon = async (
   console.log(fullSystemPrompt);
 
   const model =
-    assistantDaimon?.chara.data.extensions?.llm ?? getEnv().DEFAULT_LLM;
+    assistantDaimon?.chara?.data?.extensions?.llm ?? getEnv().DEFAULT_LLM;
   let finished = false;
   const createdAt = Date.now();
-  return new Promise(async (resolve, reject) => {
-    await con.requestMany({
-      subject: "textgen.generate",
-      signal,
-      options: {
-        timeoutMs: 1000 * 60 * 5,
-      },
+  const creatorId = isEntity(assistantDaimon) ? assistantDaimon?.id : undefined;
+  return new Promise<Partial<Content>>(async (resolve, reject) => {
+    try {
+      await con.requestMany({
+        subject: "textgen.generate",
+        signal,
+        options: {
+          timeoutMs: 1000 * 60 * 5,
+        },
 
-      onResponse: async (response) => {
-        if (finished) {
-          return;
-        }
-        const text = responseTextMapper(response.text ?? "");
-        // console.log(text);
-        if (response.done) {
-          finished = true;
-          await onUpdate({
-            creatorId: assistantDaimon?.id,
+        onResponse: async (response) => {
+          if (finished) {
+            return;
+          }
+          const text = responseTextMapper(response.text ?? "");
+          const content: Partial<Content> = {
+            creatorId,
             value: text,
             createdAt,
             updatedAt: Date.now(),
-            finalized: true,
-          });
-          resolve(response);
-          return;
-        }
-        await onUpdate({
-          creatorId: assistantDaimon?.id,
-          value: text,
-          createdAt,
-          updatedAt: Date.now(),
-          finalized: false,
-        });
-      },
-      request: {
-        body: {
-          model,
-          stream: true,
-          max_tokens: maxTokens,
-          messages: [
-            {
-              role: "system",
-              content: fullSystemPrompt,
-            },
-            {
-              role: "user",
-              content: query,
-            },
-          ],
+            finalized: response.done,
+          };
+          await onUpdate?.(content);
+          if (response.done) {
+            finished = true;
+            resolve(content);
+            return;
+          }
         },
-      },
-    });
+        request: {
+          body: {
+            model,
+            stream: true,
+            max_tokens: maxTokens,
+            messages: [
+              {
+                role: "system",
+                content: fullSystemPrompt,
+              },
+              {
+                role: "user",
+                content: query,
+              },
+            ],
+          },
+        },
+      });
+    } catch (error) {
+      reject(error);
+    }
   });
 };
