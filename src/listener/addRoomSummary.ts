@@ -20,9 +20,11 @@ export const addRoomSummary = async ({
 }) => {
   const roomContents = await findRoomContents(roomId);
   const { chunkSize, overlapSize } = getSummaryChunkSize();
+  const shortSummaryQuery =
+    "Summarize the conversation in 3 to 5 words, no quotes, no punctuation. This is for the name of conversation so that the user can easily find it later.";
   if (roomContents.length === 2) {
     const shortSummary = await askDaimon({
-      query: "Summarize the conversation in 3 to 5 words",
+      query: shortSummaryQuery,
       roomId,
       assistant: {
         chara: {
@@ -75,22 +77,8 @@ export const addRoomSummary = async ({
     parentId: roomId,
   });
 
-  // const shortSummary = await askDaimon({
-  //   query: "Summarize the conversation in 3 to 5 words",
-  //   roomId: parentId,
-  //   assistant: {
-  //     chara: {
-  //       data: {
-  //         name: "Summarizer",
-  //         description: "An expert summarization service",
-  //       },
-  //       spec: "chara_card_v2",
-  //       spec_version: "",
-  //     },
-  //   },
-  // });
   const shortSummary = await ask({
-    userMessage: "Summarize the conversation in 3 to 5 words",
+    userMessage: shortSummaryQuery,
     systemMessage: summary,
   });
   if (isDefined(shortSummary)) {
