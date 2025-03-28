@@ -1,6 +1,9 @@
 import type { ConnectionListener } from "@mjt-engine/message";
-import { type DaimonConnectionMap } from "@mjt-services/daimon-common-2025";
-import { askDaimon } from "./askDaimon";
+import {
+  Daimons,
+  type DaimonConnectionMap,
+} from "@mjt-services/daimon-common-2025";
+import { getConnection } from "../getConnection";
 
 export const daimonAskListener: ConnectionListener<
   DaimonConnectionMap,
@@ -8,7 +11,8 @@ export const daimonAskListener: ConnectionListener<
 > = async (props) => {
   const { send, detail, signal } = props;
   console.log("daimon.ask", detail.body);
-  await askDaimon({
+  const con = await getConnection();
+  await Daimons.askDaimon(con)({
     ...detail.body,
     signal,
     onUpdate: (content) => {

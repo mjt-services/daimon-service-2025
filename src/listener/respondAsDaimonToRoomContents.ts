@@ -1,12 +1,13 @@
 import { Messages } from "@mjt-engine/message";
 import {
+  CONTENT_OBJECT_STORE,
+  Daimons,
+  ROOM_OBJECT_STORE,
   type Daimon,
   type DaimonEventMap,
 } from "@mjt-services/daimon-common-2025";
-import { addContent } from "../common/addContent";
-import { addRoom } from "../common/addRoom";
+import { Datas } from "@mjt-services/data-common-2025";
 import { getConnection } from "../getConnection";
-import { askDaimon } from "./askDaimon";
 
 export const respondAsDaimonToRoomContents = async ({
   roomId,
@@ -22,15 +23,19 @@ export const respondAsDaimonToRoomContents = async ({
     stop: "",
   };
   const assistantName = daimon.chara.data.name ?? "assistant";
-  const { contentId, createdAt } = await addContent({
+  const con = await getConnection();
+  const createdAt = Date.now();
+  const contentId = await Datas.putEntity(con)(CONTENT_OBJECT_STORE)({
     creatorId: daimon.id,
     value: "",
+    createdAt,
   });
-  await addRoom({
+
+  await Datas.putEntity(con)(ROOM_OBJECT_STORE)({
     contentId,
     parentId: roomId,
   });
-  const con = await getConnection();
+
   const stopGenerationAbortController = new AbortController();
   const stopEventListenerAbortController = new AbortController();
   try {
@@ -42,7 +47,7 @@ export const respondAsDaimonToRoomContents = async ({
         stopGenerationAbortController.abort();
       },
     });
-    return askDaimon({
+    return Daimons.askDaimon(con)({
       signal: stopGenerationAbortController.signal,
       assistantId: daimon.id,
       userId: userDaimon?.id,
@@ -51,10 +56,9 @@ export const respondAsDaimonToRoomContents = async ({
         return text.replace(new RegExp(`^ *${assistantName}: *`), "");
       },
       onUpdate: async (content) => {
-        await addContent({
+        await Datas.putEntity(con)(CONTENT_OBJECT_STORE)({
           ...content,
-          contentId,
-          createdAt,
+          id: contentId,
         });
       },
       query: `Give ${assistantName}'s next response. Begin with '${assistantName}:'`,
