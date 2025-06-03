@@ -1,0 +1,18 @@
+services:
+  daimon-service-2025:
+    image: ${IMAGE_TAG}
+    container_name: ${CONTAINER_NAME}
+    restart: always
+    env_file:
+      - ./.env
+      - ./../.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    stdin_open: true
+    tty: true
